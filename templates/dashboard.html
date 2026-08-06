@@ -1,0 +1,339 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row mb-4">
+
+<div class="col-md-2">
+
+<div class="card shadow text-center stats-card">
+
+<div class="card-body">
+
+<h6>Total Students</h6>
+
+<h2>{{total_students}}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="card shadow text-center stats-card">
+
+<div class="card-body">
+
+<h6>Total Rooms</h6>
+
+<h2>{{total_rooms}}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="card shadow text-center stats-card">
+
+<div class="card-body">
+
+<h6>Occupied</h6>
+
+<h2>{{occupied_rooms}}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card shadow text-center stats-card">
+
+<div class="card-body">
+
+<h6>Available</h6>
+
+<h2>{{available_rooms}}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card shadow text-center stats-card">
+
+<div class="card-body">
+
+<h6>Pending Complaints</h6>
+
+<h2>{{pending_complaints}}</h2>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<form
+method="GET"
+class="row">
+
+<div class="col-md-10">
+
+<input
+class="form-control"
+name="search"
+placeholder="Search Student"
+value="{{search}}">
+
+</div>
+
+<div class="col-md-2">
+
+<button
+class="btn btn-primary w-100">
+
+Search
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-header">
+
+Room Occupancy
+
+</div>
+
+<div class="card-body">
+
+<canvas id="roomChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow">
+
+<div class="card-header">
+
+Complaint Status
+
+</div>
+
+<div class="card-body">
+
+<canvas id="complaintChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+<div class="card-header">
+
+Students
+
+</div>
+
+<div class="card-body">
+
+<div class="mb-3">
+
+<a
+href="/student/add"
+class="btn btn-success">
+
+Add Student
+
+</a>
+
+<a
+href="/export/students"
+class="btn btn-primary">
+
+Export CSV
+
+</a>
+
+<a
+href="/export/pdf"
+class="btn btn-danger">
+
+Export PDF
+
+</a>
+
+</div>
+
+<table class="table table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>USN</th>
+
+<th>Name</th>
+
+<th>Branch</th>
+
+<th>Semester</th>
+
+<th>Room</th>
+
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for student in students %}
+
+<tr>
+
+<td>{{student.usn}}</td>
+
+<td>{{student.name}}</td>
+
+<td>{{student.branch}}</td>
+
+<td>{{student.semester}}</td>
+
+<td>{{student.room_number}}</td>
+
+<td>
+
+<a
+href="/student/edit/{{student.id}}"
+class="btn btn-warning btn-sm">
+
+Edit
+
+</a>
+
+<a
+href="/student/delete/{{student.id}}"
+class="btn btn-danger btn-sm"
+onclick="return confirm('Delete Student?')">
+
+Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+fetch("/chart-data")
+
+.then(res=>res.json())
+
+.then(data=>{
+
+new Chart(
+
+document.getElementById("roomChart"),
+
+{
+
+type:"pie",
+
+data:{
+
+labels:data.room_labels,
+
+datasets:[{
+
+data:data.room_values
+
+}]
+
+}
+
+}
+
+);
+
+new Chart(
+
+document.getElementById("complaintChart"),
+
+{
+
+type:"bar",
+
+data:{
+
+labels:data.complaint_labels,
+
+datasets:[{
+
+label:"Complaints",
+
+data:data.complaint_values
+
+}]
+
+}
+
+}
+
+);
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+<div class="card-header bg-danger text-white">
+
+<h3>Complaint Management</h3>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<input
+class="form-control"
+name="student_name"
+placeholder="Student Name"
+required>
+
+</div>
+
+<div class="col-md-3">
+
+<input
+class="form-control"
+name="room_number"
+placeholder="Room Number"
+required>
+
+</div>
+
+<div class="col-md-3">
+
+<input
+class="form-control"
+name="complaint"
+placeholder="Complaint"
+required>
+
+</div>
+
+<div class="col-md-2">
+
+<button class="btn btn-success w-100">
+
+Submit
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+<hr>
+
+<table class="table table-striped">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Student</th>
+
+<th>Room</th>
+
+<th>Complaint</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for complaint in complaints %}
+
+<tr>
+
+<td>{{complaint.student_name}}</td>
+
+<td>{{complaint.room_number}}</td>
+
+<td>{{complaint.complaint}}</td>
+
+<td>
+
+<span class="badge bg-{% if complaint.status=='Resolved' %}success{% else %}warning{% endif %}">
+
+{{complaint.status}}
+
+</span>
+
+</td>
+
+<td>
+
+{% if complaint.status=="Pending" %}
+
+<a
+href="/complaint/resolve/{{complaint.id}}"
+class="btn btn-success btn-sm">
+
+Resolve
+
+</a>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+{% endblock %}

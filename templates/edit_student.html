@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card shadow">
+
+<div class="card-header bg-warning">
+
+<h3>Edit Student</h3>
+
+</div>
+
+<div class="card-body">
+
+<form method="POST">
+
+<div class="row">
+
+<div class="col-md-6 mb-3">
+
+<label>USN</label>
+
+<input
+class="form-control"
+name="usn"
+value="{{student.usn}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Name</label>
+
+<input
+class="form-control"
+name="name"
+value="{{student.name}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Email</label>
+
+<input
+type="email"
+class="form-control"
+name="email"
+value="{{student.email}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Phone</label>
+
+<input
+class="form-control"
+name="phone"
+value="{{student.phone}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Branch</label>
+
+<input
+class="form-control"
+name="branch"
+value="{{student.branch}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Semester</label>
+
+<input
+type="number"
+class="form-control"
+name="semester"
+value="{{student.semester}}"
+required>
+
+</div>
+
+<div class="col-md-6 mb-3">
+
+<label>Room Number</label>
+
+<select
+class="form-select"
+name="room_number">
+
+{% for room in rooms %}
+
+<option
+{% if room.room_number==student.room_number %}
+selected
+{% endif %}
+>
+
+{{room.room_number}}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+</div>
+
+<button class="btn btn-warning">
+
+Update Student
+
+</button>
+
+<a href="/dashboard"
+class="btn btn-secondary">
+
+Cancel
+
+</a>
+
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}
