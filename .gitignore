@@ -5,7 +5,7 @@ __pycache__/
 *.pyc
 
 database/*.db
-
+!database/.gitkeep
 *.sqlite3
 
 .env
